@@ -194,6 +194,7 @@ const CATS = [
 ];
 
 let session = null, profile = null, authMode = 'login', authRole = 'teacher', currentPage = 'overview';
+let suppressAuthListener = false;
 const root = document.getElementById('root');
 const toastEl = document.getElementById('toast');
 
@@ -208,7 +209,10 @@ async function boot(){
   const { data:{ session: s } } = await sb.auth.getSession();
   session = s;
   await afterAuthChange();
-  sb.auth.onAuthStateChange(async (_e, s2)=>{ session = s2; currentPage='overview'; await afterAuthChange(); });
+  sb.auth.onAuthStateChange(async (_e, s2)=>{
+    if(suppressAuthListener) return;
+    session = s2; currentPage='overview'; await afterAuthChange();
+  });
 }
 
 async function afterAuthChange(){
@@ -217,7 +221,7 @@ async function afterAuthChange(){
   const { data, error } = await sb.from('profiles').select('*').eq('id', session.user.id).maybeSingle();
   if(error){ toast('Ошибка загрузки профиля'); return; }
   profile = data;
-  if(!profile){ await sb.auth.signOut(); return; }
+  if(!profile){ toast('Профиль не найден, попробуй войти снова'); await sb.auth.signOut(); return; }
   if(profile.role === 'teacher') renderTeacherApp(); else renderStudentApp();
 }
 
@@ -282,20 +286,31 @@ async function doSignup(){
   if(!name || !email || !password){ showAuthError('Заполни все поля'); return; }
   if(authRole==='student' && !inviteCode){ showAuthError('Введи код приглашения'); return; }
   const btn = document.getElementById('submitBtn'); btn.disabled=true; btn.textContent='Регистрируем…';
-  const { data, error } = await sb.auth.signUp({ email, password });
-  if(error){ btn.disabled=false; btn.textContent='Зарегистрироваться'; showAuthError(error.message); return; }
-  if(!data.session){
+
+  suppressAuthListener = true;
+  try{
+    const { data, error } = await sb.auth.signUp({ email, password });
+    if(error){ showAuthError(error.message); return; }
+    if(!data.session){
+      showAuthError('Проверь почту для подтверждения аккаунта, затем войди.');
+      authMode='login'; renderAuth(); return;
+    }
+    session = data.session;
+
+    const { error: profErr } = await sb.from('profiles').insert({ id: data.user.id, role: authRole, name });
+    if(profErr){ showAuthError('Ошибка при создании профиля: ' + profErr.message); return; }
+
+    if(authRole==='student'){
+      const { error: joinErr } = await sb.rpc('join_with_code', { code: inviteCode });
+      if(joinErr){ showAuthError('Аккаунт создан, но код приглашения неверный: ' + joinErr.message); return; }
+    }
+
+    toast('Добро пожаловать!');
+    await afterAuthChange();
+  } finally {
     btn.disabled=false; btn.textContent='Зарегистрироваться';
-    showAuthError('Проверь почту для подтверждения аккаунта, затем войди.');
-    authMode='login'; renderAuth(); return;
+    suppressAuthListener = false;
   }
-  const { error: profErr } = await sb.from('profiles').insert({ id: data.user.id, role: authRole, name });
-  if(profErr){ showAuthError(profErr.message); btn.disabled=false; btn.textContent='Зарегистрироваться'; return; }
-  if(authRole==='student'){
-    const { error: joinErr } = await sb.rpc('join_with_code', { code: inviteCode });
-    if(joinErr){ showAuthError('Аккаунт создан, но код приглашения неверный: ' + joinErr.message); btn.disabled=false; btn.textContent='Зарегистрироваться'; return; }
-  }
-  toast('Добро пожаловать!');
 }
 
 // ================= TEACHER SHELL =================
