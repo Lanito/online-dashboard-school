@@ -21,7 +21,6 @@
   a{color:inherit; text-decoration:none;}
   button{font-family:inherit;}
 
-  /* ===== Layout ===== */
   #root{min-height:100vh;}
   .layout{display:flex; min-height:100vh;}
   .sidebar{width:230px; background:var(--pink-soft); border-right:1px solid var(--pink-line); display:flex; flex-direction:column; padding:22px 16px; flex-shrink:0;}
@@ -49,7 +48,6 @@
     .content{padding:20px 16px;}
   }
 
-  /* ===== Cards / grids ===== */
   .card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:20px; box-shadow:var(--shadow);}
   .stat-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:26px;}
   .stat-card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px; box-shadow:var(--shadow);}
@@ -69,7 +67,6 @@
   .badge.ok{background:var(--purple-soft); color:var(--purple);}
   .empty-note{color:var(--muted); font-size:13px; padding:8px 0;}
 
-  /* ===== Students grid ===== */
   .students-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px;}
   .student-tile{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:18px; box-shadow:var(--shadow); cursor:pointer; transition:transform .1s;}
   .student-tile:hover{transform:translateY(-2px);}
@@ -79,7 +76,6 @@
 
   .fab{position:fixed; right:36px; bottom:30px; width:54px; height:54px; border-radius:50%; background:var(--purple); color:#fff; border:none; font-size:26px; box-shadow:0 8px 20px rgba(107,79,160,0.35); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:20;}
 
-  /* ===== Student detail ===== */
   .back-link{display:inline-flex; align-items:center; gap:6px; color:var(--muted); font-size:13.5px; cursor:pointer; margin-bottom:14px;}
   .detail-header{display:flex; flex-wrap:wrap; gap:16px; align-items:flex-start; justify-content:space-between; margin-bottom:24px;}
   .detail-name{font-size:24px; font-weight:800;}
@@ -137,7 +133,6 @@
   .history-item .hcounts{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;}
   .hcounts span{font-size:10.5px; background:var(--pink-soft); color:var(--rose-dark); padding:3px 8px; border-radius:9px;}
 
-  /* ===== Auth ===== */
   .auth-page{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;}
   .auth-card{width:100%; max-width:380px; background:#fff; border-radius:22px; padding:32px 28px; box-shadow:0 12px 40px rgba(0,0,0,0.08);}
   .auth-card .brand{padding:0 0 22px; justify-content:center;}
@@ -154,7 +149,6 @@
   .error-box{background:#FCE8E8; color:#A23B3B; border-radius:11px; padding:9px 13px; font-size:12.5px; margin-bottom:11px;}
   .hint{font-size:11.5px; color:var(--muted); margin:-2px 0 13px; line-height:1.5;}
 
-  /* ===== Modal ===== */
   .overlay{position:fixed; inset:0; background:rgba(30,20,22,0.35); display:none; align-items:center; justify-content:center; z-index:50; padding:20px;}
   .overlay.show{display:flex;}
   .sheet{width:100%; max-width:400px; background:#fff; border-radius:20px; padding:22px; animation:pop .15s ease-out;}
@@ -225,7 +219,6 @@ async function afterAuthChange(){
   if(profile.role === 'teacher') renderTeacherApp(); else renderStudentApp();
 }
 
-// ================= AUTH =================
 function renderAuth(){
   root.innerHTML = `
     <div class="auth-page">
@@ -313,7 +306,6 @@ async function doSignup(){
   }
 }
 
-// ================= TEACHER SHELL =================
 function teacherShell(activePage, innerHTML){
   root.innerHTML = `
     <div class="layout">
@@ -342,7 +334,6 @@ function teacherShell(activePage, innerHTML){
 
 async function renderTeacherApp(){ await renderOverview(); }
 
-// ---------- Overview ----------
 async function renderOverview(){
   currentPage='overview';
   const { data: students } = await sb.from('students').select('*').order('created_at', {ascending:false});
@@ -357,7 +348,7 @@ async function renderOverview(){
         <div id="upcomingList"></div>
       </div>
       <div class="card">
-        <h3>Оплаченные занятия</h3>
+        <h3>Количество проведенных занятий</h3>
         <div id="lowBalanceList"></div>
       </div>
     </div>
@@ -370,7 +361,7 @@ async function renderOverview(){
   document.getElementById('statGrid').innerHTML = `
     <div class="stat-card"><div class="num">${totalStudents}</div><div class="lab">студентов</div></div>
     <div class="stat-card"><div class="num">${upcoming.length}</div><div class="lab">запланировано уроков</div></div>
-    <div class="stat-card"><div class="num">${lowBalance.length}</div><div class="lab">Оплаченные занятия</div></div>
+    <div class="stat-card"><div class="num">${lowBalance.length}</div><div class="lab">Количество проведенных занятий</div></div>
   `;
 
   const upcomingEl = document.getElementById('upcomingList');
@@ -392,7 +383,6 @@ async function renderOverview(){
   addFab(openAddStudentSheet);
 }
 
-// ---------- Students list page ----------
 async function renderStudentsPage(){
   currentPage='students';
   const { data: students, error } = await sb.from('students').select('*').order('created_at', {ascending:false});
@@ -471,7 +461,6 @@ function showInviteCodeSheet(name, code){
   document.getElementById('copyBtn').onclick = ()=> navigator.clipboard.writeText(code).then(()=> toast('Код скопирован'));
 }
 
-// ---------- Student detail (teacher) ----------
 async function renderStudentDetail(id){
   removeFab();
   const { data: s } = await sb.from('students').select('*').eq('id', id).single();
@@ -529,7 +518,6 @@ async function renderStudentDetail(id){
   };
   document.getElementById('addPaymentBtn').onclick = ()=> openPaymentSheet(s);
 
-  // Lesson tracking card
   const lessonCard = document.getElementById('lessonCard');
   if(!activeLesson){
     lessonCard.innerHTML = `<h3>Урок</h3><button class="big-cta" id="startBtn">Начать урок ${s.lesson_number}</button>`;
@@ -629,7 +617,6 @@ function openNoteSheet(lessonId, catKey, studentId){
   };
 }
 
-// ---------- Reusable checklist (plans & homework) ----------
 async function renderChecklist(container, table, studentId, editable, checkable){
   if(checkable === undefined) checkable = editable;
   const { data } = await sb.from(table).select('*').eq('student_id', studentId).order('created_at', {ascending:true});
@@ -670,7 +657,6 @@ async function renderChecklist(container, table, studentId, editable, checkable)
   }
 }
 
-// ---------- Progress chart ----------
 async function renderChart(container, studentId){
   const { data: lessons } = await sb.from('lessons').select('*').eq('student_id', studentId).eq('status','completed').order('lesson_number', {ascending:true});
   const lessonsArr = (lessons || []).slice(-8);
@@ -697,7 +683,6 @@ async function renderChart(container, studentId){
   `;
 }
 
-// ---------- History card ----------
 async function renderHistoryCard(container, studentId){
   const { data: lessons } = await sb.from('lessons').select('*').eq('student_id', studentId).eq('status','completed').order('lesson_number', {ascending:false});
   const lessonsArr = lessons || [];
@@ -705,14 +690,45 @@ async function renderHistoryCard(container, studentId){
   const ids = lessonsArr.map(l=>l.id);
   const { data: allNotes } = await sb.from('notes').select('*').in('lesson_id', ids);
   const byLesson = {};
-  (allNotes||[]).forEach(n=>{ byLesson[n.lesson_id] = byLesson[n.lesson_id] || {grammar:0,pronunciation:0,vocabulary:0}; byLesson[n.lesson_id][n.category]++; });
-  container.innerHTML = lessonsArr.slice(0,6).map(l=>{
+  const notesListByLesson = {};
+  (allNotes||[]).forEach(n=>{
+    byLesson[n.lesson_id] = byLesson[n.lesson_id] || {grammar:0,pronunciation:0,vocabulary:0};
+    byLesson[n.lesson_id][n.category]++;
+    notesListByLesson[n.lesson_id] = notesListByLesson[n.lesson_id] || [];
+    notesListByLesson[n.lesson_id].push(n);
+  });
+  container.innerHTML = '';
+  lessonsArr.slice(0,10).forEach(l=>{
     const c = byLesson[l.id] || {grammar:0,pronunciation:0,vocabulary:0};
-    return `<div class="history-item"><div class="hrow"><span class="hlabel">Lesson ${l.lesson_number}</span><span class="hdate">${fmtDate(l.ended_at||l.started_at)}</span></div><div class="hcounts">${CATS.map(cat=>`<span>${cat.label}: ${c[cat.key]||0}</span>`).join('')}</div></div>`;
-  }).join('');
+    const notesForLesson = (notesListByLesson[l.id] || []).sort((a,b)=> new Date(a.created_at)-new Date(b.created_at));
+    const item = document.createElement('div');
+    item.className='history-item';
+    item.style.cursor = 'pointer';
+    item.innerHTML = `
+      <div class="hrow"><span class="hlabel">Lesson ${l.lesson_number}</span><span class="hdate">${fmtDate(l.ended_at||l.started_at)}</span></div>
+      <div class="hcounts">${CATS.map(cat=>`<span>${cat.label}: ${c[cat.key]||0}</span>`).join('')}</div>
+      <div class="hnotes" style="display:none; margin-top:10px;"></div>
+    `;
+    const notesHost = item.querySelector('.hnotes');
+    let expanded = false;
+    item.addEventListener('click', ()=>{
+      expanded = !expanded;
+      notesHost.style.display = expanded ? 'block' : 'none';
+      if(expanded && notesHost.childElementCount===0){
+        if(notesForLesson.length===0){
+          notesHost.innerHTML = `<div class="empty-note">Заметок к этому уроку нет.</div>`;
+        } else {
+          notesHost.innerHTML = notesForLesson.map(n=>{
+            const catLabel = CATS.find(c2=>c2.key===n.category).label;
+            return `<div class="note-row"><div class="tag">${catLabel}${n.tag?' · '+esc(n.tag):''}</div><div class="text">${esc(n.text)}</div></div>`;
+          }).join('');
+        }
+      }
+    });
+    container.appendChild(item);
+  });
 }
 
-// ================= STUDENT VIEW (read-only + homework toggle) =================
 async function renderStudentApp(){
   removeFab();
   const { data: studentRows } = await sb.from('students').select('*').eq('user_id', session.user.id).limit(1);
