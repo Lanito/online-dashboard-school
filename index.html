@@ -357,7 +357,7 @@ async function renderOverview(){
         <div id="upcomingList"></div>
       </div>
       <div class="card">
-        <h3>Мало оплаченных занятий</h3>
+        <h3>Оплаченные занятия</h3>
         <div id="lowBalanceList"></div>
       </div>
     </div>
@@ -370,7 +370,7 @@ async function renderOverview(){
   document.getElementById('statGrid').innerHTML = `
     <div class="stat-card"><div class="num">${totalStudents}</div><div class="lab">студентов</div></div>
     <div class="stat-card"><div class="num">${upcoming.length}</div><div class="lab">запланировано уроков</div></div>
-    <div class="stat-card"><div class="num">${lowBalance.length}</div><div class="lab">мало оплаченных занятий</div></div>
+    <div class="stat-card"><div class="num">${lowBalance.length}</div><div class="lab">Оплаченные занятия</div></div>
   `;
 
   const upcomingEl = document.getElementById('upcomingList');
