@@ -236,7 +236,12 @@ async function boot(){
   await afterAuthChange();
   sb.auth.onAuthStateChange(async (_e, s2)=>{
     if(suppressAuthListener) return;
-    session = s2; currentPage='overview'; await afterAuthChange();
+    const prevUserId = session && session.user ? session.user.id : null;
+    const newUserId = s2 && s2.user ? s2.user.id : null;
+    session = s2;
+    if(prevUserId === newUserId) return;
+    currentPage='overview';
+    await afterAuthChange();
   });
 }
 
@@ -528,15 +533,47 @@ function drawCalendar(list){
     const key = `${cellYear}-${cellMonth}-${dayNum}`;
     const isToday = !otherMonth && today.getDate()===dayNum && today.getMonth()===calMonth && today.getFullYear()===calYear;
     const dayLessons = lessonsByDate[key] || [];
-    cellsHTML += `<div class="cal-cell ${otherMonth?'other-month':''} ${isToday?'today':''}">
+    cellsHTML += `<div class="cal-cell ${otherMonth?'other-month':''} ${isToday?'today':''}" data-y="${cellYear}" data-m="${cellMonth}" data-d="${dayNum}">
       <div class="cal-daynum">${dayNum}</div>
       ${dayLessons.map(dl=>`<div class="cal-chip" data-sid="${dl.student.id}">${dl.time} ${esc(dl.student.name)}</div>`).join('')}
     </div>`;
   }
   document.getElementById('calGrid').innerHTML = cellsHTML;
   document.querySelectorAll('.cal-chip').forEach(chip=>{
-    chip.onclick = ()=> renderStudentDetail(chip.dataset.sid);
+    chip.onclick = (e)=>{ e.stopPropagation(); renderStudentDetail(chip.dataset.sid); };
   });
+  document.querySelectorAll('.cal-cell').forEach(cell=>{
+    cell.style.cursor = 'pointer';
+    cell.onclick = ()=> openScheduleFromCalendar(parseInt(cell.dataset.y,10), parseInt(cell.dataset.m,10), parseInt(cell.dataset.d,10), list);
+  });
+}
+
+function openScheduleFromCalendar(y, m, d, list){
+  if(list.length===0){ toast('Сначала добавь студента'); return; }
+  const overlay = document.createElement('div'); overlay.className='overlay show';
+  const dateLabel = new Date(y, m, d).toLocaleDateString('ru-RU', {day:'numeric', month:'long', year:'numeric'});
+  overlay.innerHTML = `
+    <div class="sheet">
+      <div class="cat-chip">Запланировать урок — ${dateLabel}</div>
+      <select class="field" id="calStudentSelect">${list.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select>
+      <input class="field" type="time" id="calTimeInput" value="18:00">
+      <button class="save-btn" id="calSaveBtn">Сохранить</button>
+      <button class="cancel-link" id="calCancelBtn">Отмена</button>
+    </div>`;
+  document.getElementById('root').appendChild(overlay);
+  overlay.onclick = (e)=>{ if(e.target===overlay) overlay.remove(); };
+  document.getElementById('calCancelBtn').onclick = ()=> overlay.remove();
+  document.getElementById('calSaveBtn').onclick = async ()=>{
+    const sid = document.getElementById('calStudentSelect').value;
+    const time = document.getElementById('calTimeInput').value || '18:00';
+    const [hh,mm] = time.split(':').map(Number);
+    const dt = new Date(y, m, d, hh, mm, 0, 0);
+    const { error } = await sb.from('students').update({ next_lesson_at: dt.toISOString() }).eq('id', sid);
+    overlay.remove();
+    if(error){ toast('Ошибка: ' + error.message); return; }
+    toast('Урок запланирован');
+    renderCalendarPage();
+  };
 }
 
 function addFab(onClick){
@@ -639,6 +676,10 @@ async function renderStudentDetail(id){
       <div class="card">
         <h3>Планы на будущее</h3>
         <div id="plansHost"></div>
+      </div>
+      <div class="card">
+        <h3>Слабые места</h3>
+        <div id="weakAreasHost"></div>
       </div>
       <div class="card">
         <h3>Прогресс</h3>
@@ -773,8 +814,9 @@ async function renderStudentDetail(id){
     };
   }
 
-  await renderChecklist(document.getElementById('homeworkHost'), 'homework', id, true);
-  await renderChecklist(document.getElementById('plansHost'), 'plans', id, true);
+  await renderChecklist(document.getElementById('homeworkHost'), 'homework', id, true, true, false);
+  await renderChecklist(document.getElementById('plansHost'), 'plans', id, true, true, false);
+  await renderWeakAreas(document.getElementById('weakAreasHost'), id);
   await renderChart(document.getElementById('chartHost'), id);
   await renderHistoryCard(document.getElementById('historyHost'), id);
 }
@@ -843,22 +885,35 @@ function openNoteSheet(lessonId, catKey, studentId){
 }
 
 // ---------- Reusable checklist (plans & homework) ----------
-async function renderChecklist(container, table, studentId, editable, checkable){
+async function renderChecklist(container, table, studentId, editable, checkable, studentCanAsk){
   if(checkable === undefined) checkable = editable;
   const { data } = await sb.from(table).select('*').eq('student_id', studentId).order('created_at', {ascending:true});
   const items = data || [];
   const listWrap = document.createElement('div');
   container.appendChild(listWrap);
+  function isImageUrl(url){ return /\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i.test(url); }
   function draw(){
     listWrap.innerHTML = '';
-    if(items.length===0){ listWrap.innerHTML = `<div class="empty-note">${editable ? 'Пока пусто — добавь ниже.' : 'Пока ничего не добавлено.'}</div>`; return; }
+    if(items.length===0){ listWrap.innerHTML = `<div class="empty-note">${editable||studentCanAsk ? 'Пока пусто — добавь ниже.' : 'Пока ничего не добавлено.'}</div>`; return; }
     items.forEach(it=>{
-      const row = document.createElement('div'); row.className='check-row';
+      const row = document.createElement('div'); row.className='check-row'; row.style.flexWrap='wrap';
+      const isQ = it.is_question;
       row.innerHTML = `
         <span class="check ${it.done?'done':''}" style="${checkable?'':'cursor:default;'}">${it.done?'✓':''}</span>
-        <span class="txt ${it.done?'done':''}">${esc(it.text)}</span>
+        <span class="txt ${it.done?'done':''}">${isQ?'💬 ':''}${esc(it.text)}</span>
         ${editable ? '<span class="editItemBtn" style="cursor:pointer; color:var(--muted); font-size:13px; margin-right:6px;">✎</span><span class="deleteItemBtn" style="cursor:pointer; color:var(--muted); font-size:13px;">✕</span>' : ''}
+        ${(!editable && studentCanAsk && isQ) ? '<span class="deleteItemBtn" style="cursor:pointer; color:var(--muted); font-size:13px;">✕</span>' : ''}
       `;
+      if(it.link){
+        const linkHost = document.createElement('div');
+        linkHost.style.cssText = 'flex-basis:100%; margin-top:6px; margin-left:30px;';
+        if(isImageUrl(it.link)){
+          linkHost.innerHTML = `<img src="${esc(it.link)}" style="max-width:200px; border-radius:10px; display:block;">`;
+        } else {
+          linkHost.innerHTML = `<a href="${esc(it.link)}" target="_blank" rel="noopener" style="color:var(--purple); font-size:12.5px; text-decoration:underline;">${esc(it.link)}</a>`;
+        }
+        row.appendChild(linkHost);
+      }
       if(checkable){
         row.querySelector('.check').onclick = async ()=>{
           const { error } = await sb.from(table).update({ done: !it.done }).eq('id', it.id);
@@ -881,26 +936,73 @@ async function renderChecklist(container, table, studentId, editable, checkable)
           const idx = items.indexOf(it); if(idx>-1) items.splice(idx,1);
           draw();
         };
+      } else if(studentCanAsk && isQ){
+        row.querySelector('.deleteItemBtn').onclick = async ()=>{
+          if(!confirm('Удалить вопрос?')) return;
+          const { error } = await sb.from(table).delete().eq('id', it.id);
+          if(error){ toast('Ошибка: ' + error.message); return; }
+          const idx = items.indexOf(it); if(idx>-1) items.splice(idx,1);
+          draw();
+        };
       }
       listWrap.appendChild(row);
     });
   }
   draw();
   if(editable){
+    const addRow = document.createElement('div'); addRow.className='add-row'; addRow.style.flexWrap='wrap';
+    const showLink = table==='homework';
+    addRow.innerHTML = `
+      <input placeholder="${table==='homework' ? 'например: выучить 10 слов' : 'например: Present Perfect'}" style="flex:1 1 100%; margin-bottom:${showLink?'6px':'0'};">
+      ${showLink ? '<input placeholder="Ссылка или картинка (необязательно)" style="flex:1;">' : ''}
+      <button style="${showLink?'':'flex-shrink:0;'}">+</button>
+    `;
+    container.appendChild(addRow);
+    const inputs = addRow.querySelectorAll('input');
+    const textInput = inputs[0];
+    const linkInput = showLink ? inputs[1] : null;
+    const btn = addRow.querySelector('button');
+    const add = async ()=>{
+      const text = textInput.value.trim(); if(!text) return;
+      const payload = { student_id: studentId, text };
+      if(linkInput && linkInput.value.trim()) payload.link = linkInput.value.trim();
+      const { data:d, error } = await sb.from(table).insert(payload).select().single();
+      if(error){ toast('Ошибка: ' + error.message); return; }
+      items.push(d); textInput.value=''; if(linkInput) linkInput.value=''; draw();
+    };
+    btn.onclick = add;
+    textInput.onkeydown = (e)=>{ if(e.key==='Enter' && !showLink) add(); };
+  } else if(studentCanAsk){
     const addRow = document.createElement('div'); addRow.className='add-row';
-    addRow.innerHTML = `<input placeholder="${table==='homework' ? 'например: выучить 10 слов' : 'например: Present Perfect'}"><button>+</button>`;
+    addRow.innerHTML = `<input placeholder="Задать вопрос преподавателю..."><button>+</button>`;
     container.appendChild(addRow);
     const input = addRow.querySelector('input');
     const btn = addRow.querySelector('button');
     const add = async ()=>{
       const text = input.value.trim(); if(!text) return;
-      const { data:d, error } = await sb.from(table).insert({ student_id: studentId, text }).select().single();
+      const { data:d, error } = await sb.from(table).insert({ student_id: studentId, text, is_question: true }).select().single();
       if(error){ toast('Ошибка: ' + error.message); return; }
       items.push(d); input.value=''; draw();
     };
     btn.onclick = add;
     input.onkeydown = (e)=>{ if(e.key==='Enter') add(); };
   }
+}
+
+// ---------- Weak areas (frequent problem topics) ----------
+async function renderWeakAreas(container, studentId){
+  const { data: lessons } = await sb.from('lessons').select('id').eq('student_id', studentId);
+  const lessonIds = (lessons||[]).map(l=>l.id);
+  if(lessonIds.length===0){ container.innerHTML = `<div class="empty-note">Данные появятся после первых уроков.</div>`; return; }
+  const { data: notes } = await sb.from('notes').select('tag,category').in('lesson_id', lessonIds).not('tag','is',null);
+  const counts = {};
+  (notes||[]).forEach(n=>{
+    if(!n.tag) return;
+    counts[n.tag] = (counts[n.tag]||0) + 1;
+  });
+  const sorted = Object.entries(counts).sort((a,b)=> b[1]-a[1]).slice(0,8);
+  if(sorted.length===0){ container.innerHTML = `<div class="empty-note">Пока нет повторяющихся тем — заметки без тегов не учитываются.</div>`; return; }
+  container.innerHTML = sorted.map(([tag,count])=>`<span class="badge ${count>=3?'warn':'ok'}" style="margin:0 6px 6px 0; display:inline-block;">${esc(tag)} · ${count}</span>`).join('');
 }
 
 // ---------- Progress chart ----------
@@ -1015,8 +1117,8 @@ async function renderStudentApp(){
       <div class="card"><h3>История уроков</h3><div id="historyHost"></div></div>
     </div>
   `;
-  await renderChecklist(document.getElementById('homeworkHost'), 'homework', s.id, false, true);
-  await renderChecklist(document.getElementById('plansHost'), 'plans', s.id, false, false);
+  await renderChecklist(document.getElementById('homeworkHost'), 'homework', s.id, false, true, true);
+  await renderChecklist(document.getElementById('plansHost'), 'plans', s.id, false, false, false);
   await renderChart(document.getElementById('chartHost'), s.id);
   await renderHistoryCard(document.getElementById('historyHost'), s.id);
 }
