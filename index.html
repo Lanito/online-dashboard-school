@@ -16,6 +16,15 @@
     --shadow:0 4px 16px rgba(0,0,0,0.04);
     --border:#F1E4E6;
   }
+  [data-theme="dark"]{
+    --pink:#3A2E36; --pink-soft:#2A2229; --pink-line:#443840;
+    --purple:#B79CE0; --purple-soft:#332B44;
+    --ink:#EDE7EA; --muted:#8F8A90; --bg:#17131A; --card:#211C25;
+    --rose:#E8A0AE; --rose-dark:#E6B4C0;
+    --warn-bg:#3D2E1A; --warn-text:#E8B368;
+    --shadow:0 4px 16px rgba(0,0,0,0.25);
+    --border:#332B33;
+  }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0; padding:0; height:100%; background:var(--bg); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; color:var(--ink);}
   a{color:inherit; text-decoration:none;}
@@ -30,11 +39,12 @@
   .logo-mark svg{width:20px; height:20px;}
   .logo-word{font-weight:800; font-size:15px; color:var(--purple); line-height:1.2;}
   .nav-link{display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:12px; color:#6a5459; font-size:14px; font-weight:500; cursor:pointer; margin-bottom:4px;}
-  .nav-link.active{background:#fff; color:var(--purple); font-weight:700; box-shadow:var(--shadow);}
+  .nav-link.active{background:var(--card); color:var(--purple); font-weight:700; box-shadow:var(--shadow);}
   .nav-link svg{width:18px; height:18px; flex-shrink:0;}
   .sidebar-footer{margin-top:auto; padding-top:16px; border-top:1px solid var(--pink-line);}
   .teacher-name{font-size:12.5px; color:#8a7176; margin-bottom:10px; padding:0 4px;}
-  .logout-btn{width:100%; background:#fff; border:1px solid var(--pink-line); color:var(--rose-dark); border-radius:11px; padding:9px; font-size:13px; font-weight:600; cursor:pointer;}
+  .logout-btn{width:100%; background:var(--card); border:1px solid var(--pink-line); color:var(--rose-dark); border-radius:11px; padding:9px; font-size:13px; font-weight:600; cursor:pointer;}
+  .theme-toggle{width:100%; background:var(--card); border:1px solid var(--pink-line); color:var(--ink); border-radius:11px; padding:9px; font-size:13px; font-weight:600; cursor:pointer; margin-bottom:8px; display:flex; align-items:center; justify-content:center; gap:6px;}
 
   .content{flex:1; padding:30px 36px; max-width:1100px; overflow-x:hidden;}
   .page-title{font-size:23px; font-weight:800; margin:0 0 4px;}
@@ -85,7 +95,7 @@
   .detail-name{font-size:24px; font-weight:800;}
   .detail-meta{color:var(--muted); font-size:13px; margin-top:4px;}
   .schedule-box{display:flex; align-items:center; gap:8px;}
-  .schedule-box input{border:1px solid var(--border); border-radius:10px; padding:8px 10px; font-size:13px; font-family:inherit;}
+  .schedule-box input{border:1px solid var(--border); border-radius:10px; padding:8px 10px; font-size:13px; font-family:inherit; background:var(--card); color:var(--ink);}
   .schedule-box button{background:var(--purple); color:#fff; border:none; border-radius:10px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer;}
 
   .card-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
@@ -94,10 +104,10 @@
   .pill{background:var(--pink-soft); border:1px solid var(--pink-line); border-radius:14px; padding:13px 16px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; margin-bottom:10px;}
   .pill .label{font-weight:600; font-size:14px;}
   .pill .right{display:flex; align-items:center; gap:10px;}
-  .pill .count{background:#fff; border-radius:10px; padding:2px 9px; font-size:12px; font-weight:700; color:var(--rose-dark);}
+  .pill .count{background:var(--card); border-radius:10px; padding:2px 9px; font-size:12px; font-weight:700; color:var(--rose-dark);}
   .pill .plus{width:24px; height:24px; border-radius:50%; background:var(--purple); color:#fff; display:flex; align-items:center; justify-content:center; font-size:15px;}
 
-  .note-row{background:#fff; border:1px solid var(--border); border-radius:12px; padding:9px 12px; margin-bottom:7px;}
+  .note-row{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:9px 12px; margin-bottom:7px;}
   .note-row .tag{font-size:10.5px; font-weight:700; color:var(--purple); text-transform:uppercase; letter-spacing:0.03em;}
   .note-row .text{font-size:13px; margin-top:2px;}
   .note-row .time{font-size:10.5px; color:var(--muted); margin-top:2px;}
@@ -110,7 +120,7 @@
   .check-row .txt.done{color:var(--muted); text-decoration:line-through;}
 
   .add-row{display:flex; gap:8px; margin-top:12px;}
-  .add-row input{flex:1; border:1px solid var(--border); border-radius:12px; padding:9px 12px; font-size:13px; font-family:inherit;}
+  .add-row input{flex:1; border:1px solid var(--border); border-radius:12px; padding:9px 12px; font-size:13px; font-family:inherit; background:var(--card); color:var(--ink);}
   .add-row button{background:var(--purple); color:#fff; border:none; border-radius:12px; padding:0 16px; font-size:13px; font-weight:600; cursor:pointer;}
 
   .big-cta{display:block; width:100%; background:var(--purple); color:#fff; border:none; border-radius:14px; padding:14px; font-size:14.5px; font-weight:700; cursor:pointer; margin-bottom:10px;}
@@ -130,7 +140,7 @@
   .chart-legend span{display:inline-flex; align-items:center; gap:5px;}
   .chart-legend i{width:8px; height:8px; border-radius:2px; display:inline-block;}
 
-  .history-item{background:#fff; border:1px solid var(--border); border-radius:14px; padding:12px 14px; margin-bottom:10px;}
+  .history-item{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 14px; margin-bottom:10px;}
   .history-item .hrow{display:flex; justify-content:space-between; align-items:center;}
   .history-item .hlabel{font-weight:600; font-size:13.5px;}
   .history-item .hdate{font-size:11px; color:var(--muted);}
@@ -139,15 +149,16 @@
 
   /* ===== Auth ===== */
   .auth-page{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;}
-  .auth-card{width:100%; max-width:380px; background:#fff; border-radius:22px; padding:32px 28px; box-shadow:0 12px 40px rgba(0,0,0,0.08);}
+  .auth-card{width:100%; max-width:380px; background:var(--card); border-radius:22px; padding:32px 28px; box-shadow:0 12px 40px rgba(0,0,0,0.08);}
   .auth-card .brand{padding:0 0 22px; justify-content:center;}
   .role-tabs{display:flex; background:var(--pink-soft); border-radius:14px; padding:4px; margin-bottom:18px;}
   .role-tabs button{flex:1; border:none; background:none; padding:10px; border-radius:11px; font-size:13.5px; font-weight:600; color:var(--muted); cursor:pointer; font-family:inherit;}
-  .role-tabs button.active{background:#fff; color:var(--purple); box-shadow:var(--shadow);}
+  .role-tabs button.active{background:var(--card); color:var(--purple); box-shadow:var(--shadow);}
   .mode-toggle{display:flex; justify-content:center; gap:18px; margin-bottom:18px;}
   .mode-toggle span{font-size:13px; color:var(--muted); cursor:pointer; padding-bottom:4px;}
   .mode-toggle span.active{color:var(--ink); font-weight:700; border-bottom:2px solid var(--purple);}
-  input.field{width:100%; border:1px solid var(--border); border-radius:14px; padding:12px 14px; font-size:14.5px; font-family:inherit; margin-bottom:11px;}
+  input.field{width:100%; border:1px solid var(--border); border-radius:14px; padding:12px 14px; font-size:14.5px; font-family:inherit; margin-bottom:11px; background:var(--card); color:var(--ink);}
+  select.field{appearance:none;}
   input.field:focus{outline:2px solid var(--purple); outline-offset:1px;}
   .primary-btn{display:block; width:100%; background:var(--rose-dark); color:#fff; border:none; border-radius:14px; padding:13px; font-size:14.5px; font-weight:700; cursor:pointer; margin-top:4px;}
   .primary-btn:disabled{opacity:0.6;}
@@ -157,10 +168,10 @@
   /* ===== Modal ===== */
   .overlay{position:fixed; inset:0; background:rgba(30,20,22,0.35); display:none; align-items:center; justify-content:center; z-index:50; padding:20px;}
   .overlay.show{display:flex;}
-  .sheet{width:100%; max-width:400px; background:#fff; border-radius:20px; padding:22px; animation:pop .15s ease-out;}
+  .sheet{width:100%; max-width:400px; background:var(--card); border-radius:20px; padding:22px; animation:pop .15s ease-out;}
   @keyframes pop{from{transform:scale(0.97); opacity:0;} to{transform:scale(1); opacity:1;}}
   .sheet .cat-chip{display:inline-block; background:var(--pink-soft); color:var(--rose-dark); font-size:12px; font-weight:700; padding:4px 12px; border-radius:12px; margin-bottom:14px;}
-  .sheet textarea{width:100%; border:1px solid var(--border); border-radius:14px; padding:12px 14px; font-size:14px; font-family:inherit; resize:none; margin-bottom:12px;}
+  .sheet textarea{width:100%; border:1px solid var(--border); border-radius:14px; padding:12px 14px; font-size:14px; font-family:inherit; resize:none; margin-bottom:12px; background:var(--card); color:var(--ink);}
   .tag-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
   .tag-chip{background:#F7F2F2; color:#7A7A7A; font-size:12px; padding:6px 12px; border-radius:12px; cursor:pointer; border:1px solid transparent;}
   .tag-chip.selected{background:var(--purple-soft); color:var(--purple); border-color:var(--purple);}
@@ -217,6 +228,17 @@ function genCode(){ const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let o=''; for(le
 function fmtDate(d){ return new Date(d).toLocaleDateString('ru-RU', {day:'numeric', month:'short'}); }
 function fmtDateTime(d){ return new Date(d).toLocaleString('ru-RU', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'}); }
 function logoSVG(){ return `<svg viewBox="0 0 24 24" fill="none" stroke="#6B4FA0" stroke-width="1.8"><path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.1-3.4A7.96 7.96 0 0 1 4 12Z" stroke-linecap="round" stroke-linejoin="round"/></svg>`; }
+
+function initTheme(){
+  const saved = localStorage.getItem('ln-theme');
+  if(saved === 'dark') document.documentElement.setAttribute('data-theme','dark');
+}
+function toggleTheme(){
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if(isDark){ document.documentElement.removeAttribute('data-theme'); localStorage.setItem('ln-theme','light'); }
+  else { document.documentElement.setAttribute('data-theme','dark'); localStorage.setItem('ln-theme','dark'); }
+}
+initTheme();
 function computeNextOccurrence(weekdays, timeStr, after){
   const base = after ? new Date(after) : new Date();
   const [hh,mm] = (timeStr||'18:00').split(':').map(Number);
@@ -259,6 +281,7 @@ async function afterAuthChange(){
 function renderAuth(){
   root.innerHTML = `
     <div class="auth-page">
+      <button class="theme-toggle" id="authThemeBtn" style="position:absolute; top:20px; right:20px; width:auto; padding:8px 14px;">🌙</button>
       <div class="auth-card">
         <div class="brand"><div class="logo-mark">${logoSVG()}</div><div class="logo-word">LinguaNote</div></div>
         <div class="role-tabs">
@@ -278,6 +301,7 @@ function renderAuth(){
   document.getElementById('tabStudent').onclick = ()=>{ authRole='student'; renderAuth(); };
   document.getElementById('modeLogin').onclick = ()=>{ authMode='login'; renderAuth(); };
   document.getElementById('modeSignup').onclick = ()=>{ authMode='signup'; renderAuth(); };
+  document.getElementById('authThemeBtn').onclick = toggleTheme;
   renderAuthForm();
 }
 function showAuthError(msg){ document.getElementById('errBox').innerHTML = msg ? `<div class="error-box">${esc(msg)}</div>` : ''; }
@@ -363,6 +387,7 @@ function teacherShell(activePage, innerHTML){
         </div>
         <div class="sidebar-footer">
           <div class="teacher-name">${esc(profile.name)}</div>
+          <button class="theme-toggle" id="themeToggleBtn">🌙 Тема</button>
           <button class="logout-btn" id="logoutBtn">Выйти</button>
         </div>
       </div>
@@ -372,6 +397,7 @@ function teacherShell(activePage, innerHTML){
   document.getElementById('navOverview').onclick = ()=> renderOverview();
   document.getElementById('navStudents').onclick = ()=> renderStudentsPage();
   document.getElementById('navCalendar').onclick = ()=> renderCalendarPage();
+  document.getElementById('themeToggleBtn').onclick = toggleTheme;
   document.getElementById('logoutBtn').onclick = ()=> sb.auth.signOut();
 }
 
@@ -434,15 +460,21 @@ async function renderStudentsPage(){
   const { data: students, error } = await sb.from('students').select('*').order('created_at', {ascending:false});
   if(error){ toast('Ошибка загрузки студентов'); return; }
   const list = students || [];
+  const groups = [...new Set(list.map(s=>s.group_name).filter(Boolean))];
   teacherShell('students', `
     <div class="page-title">Студенты</div>
     <div class="page-sub">${list.length} студент${list.length===1?'':list.length<5&&list.length>0?'а':'ов'}</div>
-    <input class="field" id="studentSearch" placeholder="Поиск по имени..." style="max-width:320px; margin-bottom:16px;">
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+      <input class="field" id="studentSearch" placeholder="Поиск по имени..." style="max-width:280px; margin-bottom:0;">
+      ${groups.length>0 ? `<select class="field" id="groupFilter" style="max-width:200px; margin-bottom:0;"><option value="">Все группы</option>${groups.map(g=>`<option value="${esc(g)}">${esc(g)}</option>`).join('')}</select>` : ''}
+    </div>
     <div id="grid"></div>
   `);
   const grid = document.getElementById('grid');
-  function drawGrid(filterText){
-    const filtered = filterText ? list.filter(s=> s.name.toLowerCase().includes(filterText.toLowerCase())) : list;
+  function drawGrid(filterText, filterGroup){
+    let filtered = list;
+    if(filterText) filtered = filtered.filter(s=> s.name.toLowerCase().includes(filterText.toLowerCase()));
+    if(filterGroup) filtered = filtered.filter(s=> s.group_name === filterGroup);
     if(list.length===0){
       grid.innerHTML = `<div class="empty">Список пуст. Нажми «+» внизу справа, чтобы добавить первого студента.</div>`;
       return;
@@ -458,7 +490,7 @@ async function renderStudentsPage(){
       const tile = document.createElement('div');
       tile.className='student-tile';
       tile.innerHTML = `
-        <div class="name">${esc(s.name)}</div>
+        <div class="name">${esc(s.name)}${s.group_name ? ` <span class="badge ok" style="font-weight:600;">${esc(s.group_name)}</span>` : ''}</div>
         <div class="row"><span>Урок</span><b>${s.lesson_number}</b></div>
         <div class="row"><span>Осталось оплачено</span><b>${remaining}</b></div>
         <div class="row"><span>Следующий урок</span><b>${s.next_lesson_at ? fmtDate(s.next_lesson_at) : '—'}</b></div>
@@ -467,8 +499,34 @@ async function renderStudentsPage(){
       sgrid.appendChild(tile);
     });
   }
-  drawGrid('');
-  document.getElementById('studentSearch').oninput = (e)=> drawGrid(e.target.value);
+  drawGrid('', '');
+  document.getElementById('studentSearch').oninput = (e)=> drawGrid(e.target.value, document.getElementById('groupFilter') ? document.getElementById('groupFilter').value : '');
+  if(document.getElementById('groupFilter')){
+    document.getElementById('groupFilter').onchange = (e)=>{
+      drawGrid(document.getElementById('studentSearch').value, e.target.value);
+      updateGroupActionBtn(e.target.value);
+    };
+  }
+  function updateGroupActionBtn(groupVal){
+    const old = document.getElementById('groupActionBtn'); if(old) old.remove();
+    if(!groupVal) return;
+    const btn = document.createElement('button');
+    btn.id = 'groupActionBtn'; btn.className = 'ghost-btn'; btn.style.cssText = 'width:auto; padding:9px 16px; margin:-8px 0 16px;';
+    btn.textContent = `Начать урок для всей группы «${groupVal}»`;
+    btn.onclick = async ()=>{
+      const groupStudents = list.filter(s=> s.group_name === groupVal);
+      let started = 0;
+      for(const s of groupStudents){
+        const { data: existing } = await sb.from('lessons').select('id').eq('student_id', s.id).eq('status','active').limit(1);
+        if(existing && existing.length>0) continue;
+        const { error } = await sb.from('lessons').insert({ student_id: s.id, lesson_number: s.lesson_number, status:'active' });
+        if(!error) started++;
+      }
+      toast(`Уроки начаты для ${started} студентов`);
+      renderStudentsPage();
+    };
+    document.getElementById('grid').insertAdjacentElement('beforebegin', btn);
+  }
   addFab(openAddStudentSheet);
 }
 
@@ -588,22 +646,83 @@ function openAddStudentSheet(){
   overlay.innerHTML = `
     <div class="sheet">
       <div class="cat-chip">Новый студент</div>
-      <input class="field" id="newStudentName" placeholder="Имя студента">
-      <button class="save-btn" id="saveStudentBtn">Добавить</button>
-      <button class="cancel-link" id="cancelStudentBtn">Отмена</button>
+      <div class="mode-toggle" style="justify-content:flex-start; gap:14px;">
+        <span id="addModeSingle" class="active">Один</span>
+        <span id="addModeBulk">Несколько сразу</span>
+      </div>
+      <div id="addStudentFormHost"></div>
     </div>`;
   document.getElementById('root').appendChild(overlay);
   overlay.onclick = (e)=>{ if(e.target===overlay) overlay.remove(); };
-  document.getElementById('cancelStudentBtn').onclick = ()=> overlay.remove();
-  document.getElementById('saveStudentBtn').onclick = async ()=>{
-    const name = document.getElementById('newStudentName').value.trim();
-    if(!name) return;
-    const code = genCode();
-    const { data, error } = await sb.from('students').insert({ teacher_id: session.user.id, name, invite_code: code }).select().single();
-    overlay.remove();
-    if(error){ toast('Ошибка: ' + error.message); return; }
-    showInviteCodeSheet(data.name, data.invite_code);
-  };
+
+  let mode = 'single';
+  function draw(){
+    const host = document.getElementById('addStudentFormHost');
+    document.getElementById('addModeSingle').classList.toggle('active', mode==='single');
+    document.getElementById('addModeBulk').classList.toggle('active', mode==='bulk');
+    if(mode==='single'){
+      host.innerHTML = `
+        <input class="field" id="newStudentName" placeholder="Имя студента">
+        <input class="field" id="newStudentGroup" placeholder="Группа (необязательно)">
+        <button class="save-btn" id="saveStudentBtn">Добавить</button>
+        <button class="cancel-link" id="cancelStudentBtn">Отмена</button>
+      `;
+      document.getElementById('cancelStudentBtn').onclick = ()=> overlay.remove();
+      document.getElementById('saveStudentBtn').onclick = async ()=>{
+        const name = document.getElementById('newStudentName').value.trim();
+        const group = document.getElementById('newStudentGroup').value.trim();
+        if(!name) return;
+        const code = genCode();
+        const payload = { teacher_id: session.user.id, name, invite_code: code };
+        if(group) payload.group_name = group;
+        const { data, error } = await sb.from('students').insert(payload).select().single();
+        overlay.remove();
+        if(error){ toast('Ошибка: ' + error.message); return; }
+        showInviteCodeSheet(data.name, data.invite_code);
+      };
+    } else {
+      host.innerHTML = `
+        <textarea id="bulkNames" rows="6" placeholder="Вставь имена, по одному на строку:&#10;Анна&#10;Иван&#10;Мария"></textarea>
+        <input class="field" id="bulkGroup" placeholder="Группа (необязательно, для всех)">
+        <button class="save-btn" id="saveBulkBtn">Добавить всех</button>
+        <button class="cancel-link" id="cancelBulkBtn">Отмена</button>
+      `;
+      document.getElementById('cancelBulkBtn').onclick = ()=> overlay.remove();
+      document.getElementById('saveBulkBtn').onclick = async ()=>{
+        const names = document.getElementById('bulkNames').value.split('\n').map(n=>n.trim()).filter(Boolean);
+        if(names.length===0) return;
+        const group = document.getElementById('bulkGroup').value.trim();
+        const rows = names.map(name=>{
+          const row = { teacher_id: session.user.id, name, invite_code: genCode() };
+          if(group) row.group_name = group;
+          return row;
+        });
+        const { data, error } = await sb.from('students').insert(rows).select();
+        overlay.remove();
+        if(error){ toast('Ошибка: ' + error.message); return; }
+        toast(`Добавлено студентов: ${data.length}`);
+        showBulkCodesSheet(data);
+      };
+    }
+  }
+  document.getElementById('addModeSingle').onclick = ()=>{ mode='single'; draw(); };
+  document.getElementById('addModeBulk').onclick = ()=>{ mode='bulk'; draw(); };
+  draw();
+}
+function showBulkCodesSheet(students){
+  const overlay = document.createElement('div'); overlay.className='overlay show';
+  overlay.innerHTML = `
+    <div class="sheet">
+      <div class="cat-chip">Коды приглашений</div>
+      <div style="max-height:300px; overflow-y:auto; margin-bottom:14px;">
+        ${students.map(s=>`<div class="mini-row"><span class="who">${esc(s.name)}</span><span class="badge ok">${esc(s.invite_code)}</span></div>`).join('')}
+      </div>
+      <p class="hint">Отправь каждому студенту его код — на вкладке «Я студент» они введут его при регистрации.</p>
+      <button class="save-btn" id="closeBulkBtn">Готово</button>
+    </div>`;
+  document.getElementById('root').appendChild(overlay);
+  overlay.onclick = (e)=>{ if(e.target===overlay){ overlay.remove(); renderStudentsPage(); } };
+  document.getElementById('closeBulkBtn').onclick = ()=>{ overlay.remove(); renderStudentsPage(); };
 }
 function showInviteCodeSheet(name, code){
   const overlay = document.createElement('div'); overlay.className='overlay show';
@@ -622,6 +741,69 @@ function showInviteCodeSheet(name, code){
 }
 
 // ---------- Student detail (teacher) ----------
+async function exportStudentReport(s){
+  toast('Готовлю отчёт...');
+  const { data: lessons } = await sb.from('lessons').select('*').eq('student_id', s.id).eq('status','completed').order('lesson_number', {ascending:false});
+  const lessonsArr = lessons || [];
+  const ids = lessonsArr.map(l=>l.id);
+  const { data: allNotes } = ids.length>0 ? await sb.from('notes').select('*').in('lesson_id', ids) : { data: [] };
+  const byLesson = {};
+  const notesListByLesson = {};
+  (allNotes||[]).forEach(n=>{
+    byLesson[n.lesson_id] = byLesson[n.lesson_id] || {grammar:0,pronunciation:0,vocabulary:0};
+    byLesson[n.lesson_id][n.category]++;
+    notesListByLesson[n.lesson_id] = notesListByLesson[n.lesson_id] || [];
+    notesListByLesson[n.lesson_id].push(n);
+  });
+  const tagCounts = {};
+  (allNotes||[]).forEach(n=>{ if(n.tag) tagCounts[n.tag] = (tagCounts[n.tag]||0)+1; });
+  const weakAreas = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const remaining = s.paid_lessons - (s.lesson_number-1);
+
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>Отчёт — ${esc(s.name)}</title>
+    <style>
+      body{font-family:-apple-system,Arial,sans-serif; color:#2B2B2B; max-width:700px; margin:40px auto; padding:0 20px;}
+      h1{font-size:24px; margin-bottom:4px;}
+      .sub{color:#888; font-size:13px; margin-bottom:24px;}
+      .stats{display:flex; gap:16px; margin-bottom:28px;}
+      .stat{border:1px solid #eee; border-radius:12px; padding:14px 18px; text-align:center; flex:1;}
+      .stat .num{font-size:22px; font-weight:800; color:#6B4FA0;}
+      .stat .lab{font-size:11px; color:#888; margin-top:2px;}
+      h2{font-size:16px; margin-top:32px; border-bottom:2px solid #F0CDD3; padding-bottom:6px;}
+      .tag{display:inline-block; background:#FDEEF0; color:#8A3D47; padding:4px 10px; border-radius:10px; font-size:12px; margin:0 6px 6px 0;}
+      .lesson{border:1px solid #eee; border-radius:10px; padding:12px 16px; margin-bottom:10px;}
+      .lesson .hdr{display:flex; justify-content:space-between; font-weight:600; font-size:14px;}
+      .lesson .date{color:#888; font-weight:400; font-size:12px;}
+      .lesson .counts{font-size:12px; color:#666; margin-top:6px;}
+      .note{font-size:12.5px; margin-top:6px; padding-left:10px; border-left:2px solid #F0CDD3;}
+      @media print{ body{margin:0; padding:20px;} }
+    </style></head><body>
+    <h1>Отчёт по прогрессу — ${esc(s.name)}</h1>
+    <div class="sub">Сформировано ${new Date().toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'})}</div>
+    <div class="stats">
+      <div class="stat"><div class="num">${s.lesson_number-1}</div><div class="lab">уроков пройдено</div></div>
+      <div class="stat"><div class="num">${remaining}</div><div class="lab">занятий осталось</div></div>
+      <div class="stat"><div class="num">${(allNotes||[]).length}</div><div class="lab">всего заметок</div></div>
+    </div>
+    ${weakAreas.length>0 ? `<h2>Слабые места</h2><div>${weakAreas.map(([tag,count])=>`<span class="tag">${esc(tag)} · ${count}</span>`).join('')}</div>` : ''}
+    <h2>История уроков</h2>
+    ${lessonsArr.length===0 ? '<p style="color:#888;">Пока нет завершённых уроков.</p>' : lessonsArr.map(l=>{
+      const c = byLesson[l.id] || {grammar:0,pronunciation:0,vocabulary:0};
+      const notesForLesson = notesListByLesson[l.id] || [];
+      return `<div class="lesson">
+        <div class="hdr"><span>Урок ${l.lesson_number}</span><span class="date">${fmtDate(l.ended_at||l.started_at)}</span></div>
+        <div class="counts">Grammar: ${c.grammar} · Pronunciation: ${c.pronunciation} · Vocabulary: ${c.vocabulary}</div>
+        ${notesForLesson.map(n=>`<div class="note">${esc(CATS.find(c2=>c2.key===n.category).label)}${n.tag?' · '+esc(n.tag):''}: ${esc(n.text)}</div>`).join('')}
+      </div>`;
+    }).join('')}
+    <script>window.onload = ()=> window.print();<\/script>
+    </body></html>
+  `);
+  win.document.close();
+}
+
 async function renderStudentDetail(id){
   removeFab();
   const { data: s } = await sb.from('students').select('*').eq('id', id).single();
@@ -637,7 +819,9 @@ async function renderStudentDetail(id){
       <div>
         <div class="detail-name" id="nameDisplay">${esc(s.name)} <span id="editNameBtn" style="cursor:pointer; font-size:15px; color:var(--muted);">✎</span></div>
         <div class="detail-meta">lesson ${s.lesson_number}${s.user_id ? '' : ' · студент ещё не зарегистрирован'}</div>
+        <div class="detail-meta" id="groupDisplay" style="margin-top:6px; cursor:pointer;">${s.group_name ? `Группа: ${esc(s.group_name)}` : 'Добавить в группу'} ✎</div>
       </div>
+      <button class="ghost-btn" id="exportPdfBtn" style="width:auto; padding:9px 16px; margin:0;">Скачать отчёт</button>
       <button class="ghost-btn" id="deleteStudentBtn" style="width:auto; padding:9px 16px; margin:0;">Удалить студента</button>
     </div>
     <div class="card" style="margin-bottom:20px;">
@@ -678,6 +862,11 @@ async function renderStudentDetail(id){
         <div id="plansHost"></div>
       </div>
       <div class="card">
+        <h3>О студенте</h3>
+        <textarea id="aboutNotesInput" rows="4" placeholder="Уровень, цели, особенности... (видно только тебе)" style="width:100%; border:1px solid var(--border); border-radius:14px; padding:12px 14px; font-size:13.5px; font-family:inherit; resize:vertical; background:var(--card); color:var(--ink); margin-bottom:10px;">${esc(s.about_notes||'')}</textarea>
+        <button class="add-payment-btn" id="saveAboutBtn">Сохранить</button>
+      </div>
+      <div class="card">
         <h3>Слабые места</h3>
         <div id="weakAreasHost"></div>
       </div>
@@ -693,6 +882,19 @@ async function renderStudentDetail(id){
   `);
   document.getElementById('backLink').onclick = ()=> renderStudentsPage();
 
+  document.getElementById('groupDisplay').onclick = ()=>{
+    const groupDisplay = document.getElementById('groupDisplay');
+    groupDisplay.innerHTML = `<input class="field" id="editGroupInput" value="${esc(s.group_name||'')}" placeholder="Название группы" style="max-width:200px; display:inline-block; margin-bottom:0; padding:6px 10px; font-size:12.5px;"> <button id="saveGroupBtn" style="background:var(--purple); color:#fff; border:none; border-radius:10px; padding:6px 12px; font-size:12px; cursor:pointer;">OK</button>`;
+    document.getElementById('editGroupInput').focus();
+    document.getElementById('saveGroupBtn').onclick = async ()=>{
+      const newGroup = document.getElementById('editGroupInput').value.trim();
+      const { error } = await sb.from('students').update({ group_name: newGroup || null }).eq('id', id);
+      if(error){ toast('Ошибка: ' + error.message); return; }
+      toast('Группа обновлена');
+      renderStudentDetail(id);
+    };
+  };
+
   document.getElementById('editNameBtn').onclick = ()=>{
     const nameDisplay = document.getElementById('nameDisplay');
     nameDisplay.innerHTML = `<input class="field" id="editNameInput" value="${esc(s.name)}" style="max-width:280px; display:inline-block; margin-bottom:0;"> <button id="saveNameBtn" style="background:var(--purple); color:#fff; border:none; border-radius:10px; padding:8px 14px; font-size:13px; cursor:pointer;">OK</button>`;
@@ -705,6 +907,15 @@ async function renderStudentDetail(id){
       toast('Имя обновлено');
       renderStudentDetail(id);
     };
+  };
+
+  document.getElementById('exportPdfBtn').onclick = ()=> exportStudentReport(s);
+
+  document.getElementById('saveAboutBtn').onclick = async ()=>{
+    const text = document.getElementById('aboutNotesInput').value.trim();
+    const { error } = await sb.from('students').update({ about_notes: text || null }).eq('id', id);
+    if(error){ toast('Ошибка: ' + error.message); return; }
+    toast('Сохранено');
   };
 
   document.getElementById('deleteStudentBtn').onclick = ()=>{
@@ -814,7 +1025,7 @@ async function renderStudentDetail(id){
     };
   }
 
-  await renderChecklist(document.getElementById('homeworkHost'), 'homework', id, true, true, false);
+  await renderChecklist(document.getElementById('homeworkHost'), 'homework', id, true, true, false, activeLesson ? activeLesson.id : null);
   await renderChecklist(document.getElementById('plansHost'), 'plans', id, true, true, false);
   await renderWeakAreas(document.getElementById('weakAreasHost'), id);
   await renderChart(document.getElementById('chartHost'), id);
@@ -855,22 +1066,51 @@ function openPaymentSheet(s, editMode){
   };
 }
 
-function openNoteSheet(lessonId, catKey, studentId){
+async function openNoteSheet(lessonId, catKey, studentId){
   const cat = CATS.find(c=>c.key===catKey);
+  const { data: templates } = await sb.from('note_templates').select('*').eq('teacher_id', session.user.id).eq('category', catKey).order('created_at', {ascending:false});
+  const templatesArr = templates || [];
   const overlay = document.createElement('div'); overlay.className='overlay show';
   overlay.innerHTML = `
     <div class="sheet">
       <div class="cat-chip">${cat.label}</div>
+      ${templatesArr.length>0 ? `<div class="tag-row" id="templateRow">${templatesArr.map(t=>`<span class="tag-chip" data-text="${esc(t.text)}" data-id="${t.id}" style="position:relative; padding-right:22px;">${esc(t.text.length>28?t.text.slice(0,28)+'…':t.text)}<span class="deleteTemplateBtn" data-id="${t.id}" style="position:absolute; right:5px; top:50%; transform:translateY(-50%); font-size:10px; color:var(--muted);">✕</span></span>`).join('')}</div>` : ''}
       <textarea id="noteText" rows="3" placeholder="что заметили? например: путает Present Perfect и Past Simple"></textarea>
       <div class="tag-row" id="tagRow">${cat.tags.map(t=>`<span class="tag-chip" data-tag="${esc(t)}">${esc(t)}</span>`).join('')}</div>
+      <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+        <span id="saveTemplateLink" style="font-size:12px; color:var(--purple); cursor:pointer;">+ сохранить как шаблон</span>
+      </div>
       <button class="save-btn" id="saveNoteBtn">Сохранить</button>
       <button class="cancel-link" id="cancelNoteBtn">Отмена</button>
     </div>`;
   document.getElementById('root').appendChild(overlay);
   let selectedTag = null;
-  overlay.querySelectorAll('.tag-chip').forEach(chip=>{
-    chip.onclick = ()=>{ overlay.querySelectorAll('.tag-chip').forEach(c=>c.classList.remove('selected')); if(selectedTag===chip.dataset.tag){selectedTag=null;} else {selectedTag=chip.dataset.tag; chip.classList.add('selected');} };
+  overlay.querySelectorAll('#tagRow .tag-chip').forEach(chip=>{
+    chip.onclick = ()=>{ overlay.querySelectorAll('#tagRow .tag-chip').forEach(c=>c.classList.remove('selected')); if(selectedTag===chip.dataset.tag){selectedTag=null;} else {selectedTag=chip.dataset.tag; chip.classList.add('selected');} };
   });
+  if(document.getElementById('templateRow')){
+    document.getElementById('templateRow').querySelectorAll('.tag-chip').forEach(chip=>{
+      chip.onclick = (e)=>{
+        if(e.target.classList.contains('deleteTemplateBtn')) return;
+        document.getElementById('noteText').value = chip.dataset.text;
+      };
+    });
+    document.getElementById('templateRow').querySelectorAll('.deleteTemplateBtn').forEach(btn=>{
+      btn.onclick = async (e)=>{
+        e.stopPropagation();
+        const { error } = await sb.from('note_templates').delete().eq('id', btn.dataset.id);
+        if(error){ toast('Ошибка: ' + error.message); return; }
+        btn.closest('.tag-chip').remove();
+      };
+    });
+  }
+  document.getElementById('saveTemplateLink').onclick = async ()=>{
+    const text = document.getElementById('noteText').value.trim();
+    if(!text){ toast('Сначала напиши текст заметки'); return; }
+    const { error } = await sb.from('note_templates').insert({ teacher_id: session.user.id, category: catKey, text });
+    if(error){ toast('Ошибка: ' + error.message); return; }
+    toast('Шаблон сохранён');
+  };
   overlay.onclick = (e)=>{ if(e.target===overlay) overlay.remove(); };
   document.getElementById('cancelNoteBtn').onclick = ()=> overlay.remove();
   document.getElementById('saveNoteBtn').onclick = async ()=>{
@@ -885,7 +1125,7 @@ function openNoteSheet(lessonId, catKey, studentId){
 }
 
 // ---------- Reusable checklist (plans & homework) ----------
-async function renderChecklist(container, table, studentId, editable, checkable, studentCanAsk){
+async function renderChecklist(container, table, studentId, editable, checkable, studentCanAsk, lessonId){
   if(checkable === undefined) checkable = editable;
   const { data } = await sb.from(table).select('*').eq('student_id', studentId).order('created_at', {ascending:true});
   const items = data || [];
@@ -900,7 +1140,7 @@ async function renderChecklist(container, table, studentId, editable, checkable,
       const isQ = it.is_question;
       row.innerHTML = `
         <span class="check ${it.done?'done':''}" style="${checkable?'':'cursor:default;'}">${it.done?'✓':''}</span>
-        <span class="txt ${it.done?'done':''}">${isQ?'💬 ':''}${esc(it.text)}</span>
+        <span class="txt ${it.done?'done':''}">${isQ?'💬 ':''}${esc(it.text)}${it.lesson_id ? ' <span style="font-size:10.5px; color:var(--muted); font-weight:400;">(к уроку)</span>' : ''}</span>
         ${editable ? '<span class="editItemBtn" style="cursor:pointer; color:var(--muted); font-size:13px; margin-right:6px;">✎</span><span class="deleteItemBtn" style="cursor:pointer; color:var(--muted); font-size:13px;">✕</span>' : ''}
         ${(!editable && studentCanAsk && isQ) ? '<span class="deleteItemBtn" style="cursor:pointer; color:var(--muted); font-size:13px;">✕</span>' : ''}
       `;
@@ -950,12 +1190,13 @@ async function renderChecklist(container, table, studentId, editable, checkable,
   }
   draw();
   if(editable){
-    const addRow = document.createElement('div'); addRow.className='add-row'; addRow.style.flexWrap='wrap';
     const showLink = table==='homework';
+    const addRow = document.createElement('div'); addRow.className='add-row'; addRow.style.flexWrap='wrap';
     addRow.innerHTML = `
       <input placeholder="${table==='homework' ? 'например: выучить 10 слов' : 'например: Present Perfect'}" style="flex:1 1 100%; margin-bottom:${showLink?'6px':'0'};">
       ${showLink ? '<input placeholder="Ссылка или картинка (необязательно)" style="flex:1;">' : ''}
       <button style="${showLink?'':'flex-shrink:0;'}">+</button>
+      ${showLink ? `<div style="flex-basis:100%; font-size:11px; color:var(--muted); margin-top:4px;">${lessonId ? 'Сохранится к текущему уроку' : 'Урок сейчас не идёт — сохранится как общее задание'}</div>` : ''}
     `;
     container.appendChild(addRow);
     const inputs = addRow.querySelectorAll('input');
@@ -966,6 +1207,7 @@ async function renderChecklist(container, table, studentId, editable, checkable,
       const text = textInput.value.trim(); if(!text) return;
       const payload = { student_id: studentId, text };
       if(linkInput && linkInput.value.trim()) payload.link = linkInput.value.trim();
+      if(table==='homework' && lessonId) payload.lesson_id = lessonId;
       const { data:d, error } = await sb.from(table).insert(payload).select().single();
       if(error){ toast('Ошибка: ' + error.message); return; }
       items.push(d); textInput.value=''; if(linkInput) linkInput.value=''; draw();
@@ -1039,18 +1281,25 @@ async function renderHistoryCard(container, studentId){
   if(lessonsArr.length===0){ container.innerHTML = `<div class="empty-note">Пока нет завершённых уроков.</div>`; return; }
   const ids = lessonsArr.map(l=>l.id);
   const { data: allNotes } = await sb.from('notes').select('*').in('lesson_id', ids);
+  const { data: allHomework } = await sb.from('homework').select('*').in('lesson_id', ids);
   const byLesson = {};
   const notesListByLesson = {};
+  const homeworkByLesson = {};
   (allNotes||[]).forEach(n=>{
     byLesson[n.lesson_id] = byLesson[n.lesson_id] || {grammar:0,pronunciation:0,vocabulary:0};
     byLesson[n.lesson_id][n.category]++;
     notesListByLesson[n.lesson_id] = notesListByLesson[n.lesson_id] || [];
     notesListByLesson[n.lesson_id].push(n);
   });
+  (allHomework||[]).forEach(h=>{
+    homeworkByLesson[h.lesson_id] = homeworkByLesson[h.lesson_id] || [];
+    homeworkByLesson[h.lesson_id].push(h);
+  });
   container.innerHTML = '';
   lessonsArr.slice(0,10).forEach(l=>{
     const c = byLesson[l.id] || {grammar:0,pronunciation:0,vocabulary:0};
     const notesForLesson = (notesListByLesson[l.id] || []).sort((a,b)=> new Date(a.created_at)-new Date(b.created_at));
+    const homeworkForLesson = homeworkByLesson[l.id] || [];
     const item = document.createElement('div');
     item.className='history-item';
     item.style.cursor = 'pointer';
@@ -1065,14 +1314,23 @@ async function renderHistoryCard(container, studentId){
       expanded = !expanded;
       notesHost.style.display = expanded ? 'block' : 'none';
       if(expanded && notesHost.childElementCount===0){
+        let html = '';
         if(notesForLesson.length===0){
-          notesHost.innerHTML = `<div class="empty-note">Заметок к этому уроку нет.</div>`;
+          html += `<div class="empty-note">Заметок к этому уроку нет.</div>`;
         } else {
-          notesHost.innerHTML = notesForLesson.map(n=>{
+          html += notesForLesson.map(n=>{
             const catLabel = CATS.find(c2=>c2.key===n.category).label;
             return `<div class="note-row"><div class="tag">${catLabel}${n.tag?' · '+esc(n.tag):''}</div><div class="text">${esc(n.text)}</div></div>`;
           }).join('');
         }
+        if(homeworkForLesson.length>0){
+          html += `<div style="font-size:11px; color:var(--muted); font-weight:600; margin:10px 0 6px;">Домашнее задание:</div>`;
+          html += homeworkForLesson.map(h=>{
+            const linkHtml = h.link ? (/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i.test(h.link) ? `<img src="${esc(h.link)}" style="max-width:160px; border-radius:8px; display:block; margin-top:4px;">` : `<a href="${esc(h.link)}" target="_blank" rel="noopener" style="color:var(--purple); font-size:12px;">${esc(h.link)}</a>`) : '';
+            return `<div class="note-row">${h.done?'✓ ':''}${esc(h.text)}${linkHtml}</div>`;
+          }).join('');
+        }
+        notesHost.innerHTML = html;
       }
     });
     container.appendChild(item);
@@ -1090,12 +1348,14 @@ async function renderStudentApp(){
         <div class="brand"><div class="logo-mark">${logoSVG()}</div><div class="logo-word">LinguaNote</div></div>
         <div class="sidebar-footer">
           <div class="teacher-name">${esc(profile.name)}</div>
+          <button class="theme-toggle" id="themeToggleBtn">🌙 Тема</button>
           <button class="logout-btn" id="logoutBtn">Выйти</button>
         </div>
       </div>
       <div class="content" id="content"></div>
     </div>
   `;
+  document.getElementById('themeToggleBtn').onclick = toggleTheme;
   document.getElementById('logoutBtn').onclick = ()=> sb.auth.signOut();
   const content = document.getElementById('content');
   if(!s){
